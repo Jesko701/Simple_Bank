@@ -8,7 +8,7 @@ migrate-down:
 	@migrate -path db/migration -database "postgres://jesk:testing@localhost:5433/simple_bank_jwt?sslmode=disable&search_path=tutorial" --verbose down 1
 
 migrate-test:
-	@migrate -path db/migration -database "$(DATABASE_URL)" --verbose up
+	@migrate -path db/migration -database "$(DB_SOURCE)" --verbose up
 
 test:
 	go test ./... -cover -v

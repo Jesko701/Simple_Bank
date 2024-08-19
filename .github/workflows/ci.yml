@@ -13,9 +13,9 @@ jobs:
           postgres:
             image: postgres:14.13-alpine3.20
             env: 
-              POSTGRES_PASSWORD: testing
-              POSTGRES_USER: jesk
-              POSTGRES_DB: simple_bank_jwt
+              POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+              POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+              POSTGRES_DB: ${{secrets.POSTGRES_DB}}
             options: >-
               --health-cmd pg_isready
               --health-interval 10s
@@ -40,12 +40,24 @@ jobs:
                 curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.1/migrate.linux-amd64.tar.gz | tar xz
                 sudo mv migrate /usr/bin/migrate
                 which migrate
+
+            -  name: Create 'tutorial' schema
+               run: |
+                  PGPASSWORD=${{secrets.POSTGRES_PASSWORD}} psql -h localhost -U ${{secrets.POSTGRES_USER}} -d ${{secrets.POSTGRES_DB}} -p 5433 -c "CREATE SCHEMA IF NOT EXISTS tutorial;"
             
             - name: Run Migration
               env:
-                DATABASE_URL: postgres://jesk:testing@localhost:5433/simple_bank_jwt?sslmode=disable
+                DATABASE_URL: ${{ secrets.DB_SOURCE }}
               run: make migrate-test
             
             - name: Running the Test
               run: make test
+              env:
+                DB_DRIVER: ${{ secrets.DB_DRIVER }}
+                DB_SOURCE: ${{ secrets.DB_SOURCE }}
+                SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
+                TOKEN_SYMMETRIC_KEY: ${{ secrets.TOKEN_SYMMETRIC_KEY }}
+                ACCESS_TOKEN_DURATION: ${{ secrets.ACCESS_TOKEN_DURATION }}
+
+
                 
