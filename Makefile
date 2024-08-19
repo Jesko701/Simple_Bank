@@ -11,7 +11,7 @@ migrate-test:
 	@migrate -path db/migration -database "$(DATABASE_URL)" --verbose up
 
 test:
-	go test ./.. -cover -v
+	go test ./... -cover -v
 
 sqlc:
 	@sqlc generate
