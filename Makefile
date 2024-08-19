@@ -7,8 +7,8 @@ migrate-up:
 migrate-down:
 	@migrate -path db/migration -database "postgres://jesk:testing@localhost:5433/simple_bank_jwt?sslmode=disable&search_path=tutorial" --verbose down 1
 
-migrate-all:
-	@migrate -path db/migration -database "postgres://jesk:testing@localhost:5433/simple_bank_jwt?sslmode=disable&search_path=tutorial" --verbose up
+migrate-test:
+	@migrate -path db/migration -database "postgres://jesk:testing@localhost:5433/simple_bank_jwt?sslmode=disable" --verbose up
 
 test:
 	go test ./.. -cover -v
@@ -16,4 +16,4 @@ test:
 sqlc:
 	@sqlc generate
 
-.PHONY: migrate migrate-up migrate-down sqlc migrate-all test
+.PHONY: migrate migrate-up migrate-down sqlc migrate-test test
