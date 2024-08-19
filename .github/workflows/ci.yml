@@ -1,0 +1,49 @@
+name: Go
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    CreatingServices:
+        runs-on: ubuntu-latest
+        services:
+          postgres:
+            image: postgres:14.13-alpine3.20
+            env: 
+              POSTGRES_PASSWORD: testing
+              POSTGRES_USER: jesk
+              POSTGRES_DB: simple_bank_jwt
+            options: >-
+              --health-cmd pg_isready
+              --health-interval 10s
+              --health-timeout 5s
+              --health-retries 5
+            ports:
+              - 5433:5432
+                
+
+        steps: 
+            - name: Setup golang 1.x
+              uses: actions/setup-go@v2
+              with:
+                go-version: ^1.2
+              id: go
+            
+            - name: Checkout the code into Go Module Directory
+              uses: actions/checkout@v2
+            
+            - name: Installing the migrate and copy to usr/bin
+              run: |
+                curl -L https://github.com/golang-migrate/migrate/releases/download/v4.17.1/migrate.linux-amd64.tar.gz | tar xyz
+                sudo mv migrate /usr/bin/migrate
+                which migrate
+            
+            - name: Run Migration
+              run: make migrate
+            
+            - name: Running the Test
+              run: make test
+                
