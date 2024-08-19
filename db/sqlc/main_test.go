@@ -19,6 +19,17 @@ func TestMain(m *testing.M) {
 		log.Fatal("Error connect to config gile", err)
 	}
 
+	// Fallback to environment variables if the config file is missing or incomplete
+	dbDriver := config.DBDriver
+	if dbDriver == "" {
+		dbDriver = os.Getenv("DB_DRIVER")
+	}
+
+	dbSource := config.DBSource
+	if dbSource == "" {
+		dbSource = os.Getenv("DB_SOURCE")
+	}
+
 	testDB, err = sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("Error when connecting to database", err)
