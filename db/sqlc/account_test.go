@@ -93,6 +93,9 @@ func TestListAccount(t *testing.T) {
 		createRandomUser(t)
 	}
 
+	// Ensure the test data is committed and visible
+	time.Sleep(1 * time.Second) // Add a small delay if necessary
+
 	// Skip 5 accounts and get 4 accounts
 	arg := ListAccountsParams{
 		Limit:  4,
