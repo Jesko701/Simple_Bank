@@ -30,7 +30,7 @@ func TestMain(m *testing.M) {
 		dbSource = os.Getenv("DB_SOURCE")
 	}
 
-	testDB, err = sql.Open(config.DBDriver, config.DBSource)
+	testDB, err = sql.Open(dbDriver, dbSource)
 	if err != nil {
 		log.Fatal("Error when connecting to database", err)
 	}
