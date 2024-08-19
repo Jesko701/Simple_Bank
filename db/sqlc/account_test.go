@@ -88,27 +88,25 @@ func TestGetAccount(t *testing.T) {
 	require.NotEmpty(t, result.CreatedAt)
 }
 
-func TestListAccount(t *testing.T) {
-	for i := 0; i < 9; i++ {
-		createRandomUser(t)
+func TestListAccounts(t *testing.T) {
+	var lastAccount Account
+	for i := 0; i < 10; i++ {
+		lastAccount = createRandomAccount(t)
 	}
 
-	// Ensure the test data is committed and visible
-	time.Sleep(1 * time.Second) // Add a small delay if necessary
-
-	// Skip 5 accounts and get 4 accounts
 	arg := ListAccountsParams{
-		Limit:  4,
-		Offset: 5,
+		Owner:  lastAccount.Owner,
+		Limit:  5,
+		Offset: 0,
 	}
 
 	accounts, err := testQueries.ListAccounts(context.Background(), arg)
 	require.NoError(t, err)
-	require.Len(t, accounts, 4) // based on the limit
+	require.NotEmpty(t, accounts)
 
-	// Ensure the account output is 4
-	for _, data := range accounts {
-		require.NotEmpty(t, data)
+	for _, account := range accounts {
+		require.NotEmpty(t, account)
+		require.Equal(t, lastAccount.Owner, account.Owner)
 	}
 }
 
