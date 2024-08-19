@@ -6,12 +6,14 @@ import (
 	"fmt"
 )
 
+// Implementing the querier interface
 type Store interface {
 	Querier
 	TransferTx(context context.Context, arg TransferTxParams) (TransferTxResult, error)
 	AccountDeleter
 }
 
+// This use to use at NewStore that return the Address of SQLStore to Store interface
 type SQLStore struct {
 	*Queries
 	db *sql.DB
