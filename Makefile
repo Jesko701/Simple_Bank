@@ -13,7 +13,10 @@ migrate-test:
 test:
 	go test ./... -cover -v
 
+server:
+	go run main.go
+
 sqlc:
 	@sqlc generate
 
-.PHONY: migrate migrate-up migrate-down sqlc migrate-test test
+.PHONY: migrate migrate-up migrate-down sqlc migrate-test test server

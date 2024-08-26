@@ -6,10 +6,17 @@ import (
 	"os"
 	"solo_simple-bank_tutorial/api"
 	"solo_simple-bank_tutorial/db/sqlc"
+	"solo_simple-bank_tutorial/token"
 	"solo_simple-bank_tutorial/util"
 
 	_ "github.com/lib/pq"
 )
+
+// * Optional if the token is not generate already (Special for JWT)
+// * using ECDSA
+func init() {
+	token.EcdsaTokenGenerate()
+}
 
 func main() {
 	//Load Configuration
@@ -42,9 +49,9 @@ func main() {
 	// Based on sqlc package
 	store := sqlc.NewStore(conn)
 	// Connect to router
-	server, err := api.NewServer(store)
+	server, err := api.NewServer(config, store)
 	if err != nil {
-		log.Fatal("Cannot create a server", err)
+		log.Fatal("Cannot create a server ", err)
 	}
 
 	err = server.Start(config.ServerAddress)

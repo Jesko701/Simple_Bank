@@ -3,8 +3,12 @@ module solo_simple-bank_tutorial
 go 1.22.5
 
 require (
+	aidanwoods.dev/go-paseto v1.5.2
 	github.com/gin-gonic/gin v1.10.0
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/golang/mock v1.6.0
+	github.com/google/uuid v1.6.0
+	github.com/jackc/pgx/v5 v5.6.0
 	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
@@ -12,6 +16,7 @@ require (
 )
 
 require (
+	aidanwoods.dev/go-result v0.1.0 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
@@ -26,6 +31,8 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/jackc/pgpassfile v1.0.0 // indirect
+	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
@@ -50,7 +57,7 @@ require (
 	golang.org/x/arch v0.8.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sys v0.23.0 // indirect
+	golang.org/x/sys v0.24.0 // indirect
 	golang.org/x/text v0.17.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
