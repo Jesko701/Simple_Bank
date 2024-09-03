@@ -9,6 +9,8 @@ import (
 	"solo_simple-bank_tutorial/util"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 type Server struct {
@@ -47,13 +49,24 @@ func NewServer(config util.Config, store sqlc.Store) (*Server, error) {
 		token:  token,
 	}
 
-	user := router.Group("/users")
-	{
-		user.POST("", server.CreateUser)
-		user.POST("login", server.LoginUser)
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		v.RegisterValidation("currency", validCurrency)
 	}
 
-	hello := router.Group("/hello").Use(authMiddleware(server.token))
+	server.Routes(router)
+
+	server.router = router
+	return server, nil
+}
+
+func (s *Server) Routes(router *gin.Engine) {
+	user := router.Group("/users")
+	{
+		user.POST("", s.CreateUser)
+		user.POST("login", s.LoginUser)
+	}
+
+	hello := router.Group("/hello").Use(authMiddleware(s.token))
 	{
 		hello.GET("/", func(c *gin.Context) {
 			payload, exists := c.Get(Authorization_Payload)
@@ -62,11 +75,8 @@ func NewServer(config util.Config, store sqlc.Store) (*Server, error) {
 			}
 			c.JSON(200, gin.H{"message": "Welcome to the API!",
 				"user": payload})
-		}).Use(authMiddleware(server.token))
+		}).Use(authMiddleware(s.token))
 	}
-
-	server.router = router
-	return server, nil
 }
 
 func (s *Server) Start(address string) error {

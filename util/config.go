@@ -2,18 +2,16 @@ package util
 
 import (
 	"log"
-	"time"
 
 	"github.com/spf13/viper"
 )
 
 // Creating based on .env
 type Config struct {
-	DBDriver            string        `mapstructure:"DB_Driver"`
-	DBSource            string        `mapstructure:"DB_Source"`
-	ServerAddress       string        `mapstructure:"SERVER_ADDRESS"`
-	TokenAPI            string        `mapstructure:"TOKEN_SYMETRIC_KEY"`
-	AccessTokenDuration time.Duration `mapstructure:"ACCESS_TOKEN_DURATION"`
+	DBDriver      string `mapstructure:"DB_Driver"`
+	DBSource      string `mapstructure:"DB_Source"`
+	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
+	TokenAPI      string `mapstructure:"TOKEN_SYMETRIC_KEY"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
