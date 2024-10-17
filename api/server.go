@@ -24,11 +24,14 @@ func NewServer(config util.Config, store sqlc.Store) (*Server, error) {
 	// If using JWT, create the ecdsa file private key first and load it
 	// using paseto = directly using TokenAPI
 
-	// TODO: Readfile for private key (optional: if you're using the file)
+	// TODO: Readfile for private key (optional: if you're using the file) using JWT
 	privateKeyBytes, err := ioutil.ReadFile("ecdsa_private_key.pem")
 	if err != nil {
 		return nil, err
 	}
+
+	// TODO: ReadEnv for PasetoPrivateKey (Mandatory - if you're using the paseto token)
+	// pasetoPrivate := config.PasetoToken
 
 	// TODO: ReadEnv for privateKey (optional: generally used for secret key (github,etc))
 	// privateKeyBytes, exists := os.LookupEnv("ECDSA_PRIVATE_KEY")
@@ -36,7 +39,7 @@ func NewServer(config util.Config, store sqlc.Store) (*Server, error) {
 	// 	fmt.Println("Private Key environtment variable is not set")
 	// }
 
-	// if using paseto, change to token.NewPasetoMaker and used config.TokenAPI
+	// TODO: if using paseto, change to token.NewPasetoMaker and used config.TokenAPI
 	// and delete the read file above
 	token, err := token.NewJWTMaker(string(privateKeyBytes))
 	if err != nil {

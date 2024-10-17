@@ -6,16 +6,17 @@ import (
 	"os"
 	"solo_simple-bank_tutorial/api"
 	"solo_simple-bank_tutorial/db/sqlc"
-	"solo_simple-bank_tutorial/token"
 	"solo_simple-bank_tutorial/util"
 
 	_ "github.com/lib/pq"
 )
 
-// * Optional if the token is not generate already (Special for JWT)
-// * using ECDSA
+// * Optional if the token is not generate already (JWT or Paseto)
+// * using ECDSA for JWT, Paseto using chachapoly
 func init() {
-	token.EcdsaTokenGenerate()
+	// token.EcdsaTokenGenerate()
+	// pasetoToken := token.PasetoTokenMaker()
+	// log.Println(pasetoToken)
 }
 
 func main() {

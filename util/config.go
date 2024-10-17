@@ -12,6 +12,7 @@ type Config struct {
 	DBSource      string `mapstructure:"DB_Source"`
 	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
 	TokenAPI      string `mapstructure:"TOKEN_SYMETRIC_KEY"`
+	PasetoToken   string `mapstructure:"PASETO_PRIVATE_KEY"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
